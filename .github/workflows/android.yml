@@ -9,34 +9,44 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - name: Install Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
-      - name: Install dependencies
+      - name: Install system dependencies
         run: |
-          sudo apt update
-          sudo apt install -y python3-pip git zip openjdk-17-jdk
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            git \
+            zip \
+            unzip \
+            openjdk-17-jdk \
+            libgl1-mesa-dev \
+            libgles2-mesa-dev \
+            python3-pip
 
-      - name: Install Buildozer
+      - name: Install buildozer and Cython
         run: |
-          pip install --upgrade pip
-          pip install buildozer cython
-          sudo apt install -y \
-            libffi-dev libssl-dev \
-            libsqlite3-dev libjpeg-dev \
-            zlib1g-dev
+          pip install --upgrade pip setuptools wheel Cython
+          pip install buildozer
+
+      - name: Initialize buildozer (if buildozer.spec missing)
+        run: |
+          if [ ! -f buildozer.spec ]; then
+            buildozer init
+          fi
 
       - name: Build APK
         run: |
           buildozer -v android debug
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v3
+      - name: Upload APK Artifact (NEW 2025 VERSION)
+        uses: actions/upload-artifact@v4
         with:
-          name: blinkit-app
+          name: LocalConnect-APK
           path: bin/*.apk
-
+          compression-level: 0

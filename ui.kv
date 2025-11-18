@@ -1,0 +1,53 @@
+ScreenManager:
+    transition: NoTransition()
+    current: "login"
+
+    LoginScreen:
+    CustomerHome:
+    VendorHome:
+
+<LoginScreen@MDScreen>:
+    name: "login"
+
+    MDFloatLayout:
+        MDLabel:
+            text: "Blinkit"
+            halign: "center"
+            font_style: "H3"
+            pos_hint: {"center_y": 0.8}
+
+        MDTextField:
+            id: login_email
+            hint_text: "Email"
+            pos_hint: {"center_x": 0.5, "center_y": 0.55}
+            size_hint_x: 0.8
+
+        MDTextField:
+            id: login_password
+            hint_text: "Password"
+            password: True
+            pos_hint: {"center_x": 0.5, "center_y": 0.47}
+            size_hint_x: 0.8
+
+        MDRaisedButton:
+            text: "Login"
+            pos_hint: {"center_x": 0.5, "center_y": 0.38}
+            on_release: app.login()
+
+<CustomerHome@MDScreen>:
+    name: "customer_home"
+
+    MDFloatLayout:
+        MDLabel:
+            text: "Customer Home"
+            halign: "center"
+            pos_hint: {"center_y": 0.5}
+
+<VendorHome@MDScreen>:
+    name: "vendor_home"
+
+    MDFloatLayout:
+        MDLabel:
+            text: "Vendor Dashboard"
+            halign: "center"
+            pos_hint: {"center_y": 0.5}
